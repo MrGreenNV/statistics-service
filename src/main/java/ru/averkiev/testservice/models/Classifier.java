@@ -23,4 +23,5 @@ public class Classifier extends BaseEntity {
     /** Описание типа классификатора */
     @Column(name = "description")
     private String description;
+
 }
