@@ -91,7 +91,7 @@ public class ClassifierServiceImpl implements ClassifierService {
      * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
      */
     @Override
-    public ClassifierDTO showClassifier(Long classifierId) throws ClassifierNotFoundException {
+    public ClassifierDTO getClassifier(Long classifierId) throws ClassifierNotFoundException {
         return modelMapper.map(getClassifierById(classifierId), ClassifierDTO.class);
     }
 
@@ -100,7 +100,7 @@ public class ClassifierServiceImpl implements ClassifierService {
      * @return список DTO классификаторов.
      */
     @Override
-    public List<ClassifierDTO> showAllClassifier() {
+    public List<ClassifierDTO> getAllClassifier() {
         return classifierRepository.findAll().stream()
                 .map(classifier -> modelMapper.map(classifier, ClassifierDTO.class))
                 .collect(Collectors.toList());

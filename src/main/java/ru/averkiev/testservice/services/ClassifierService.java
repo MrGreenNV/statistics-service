@@ -36,13 +36,13 @@ public interface ClassifierService {
      * @return DTO искомого классификатора.
      * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
      */
-    ClassifierDTO showClassifier(Long ClassifierId) throws ClassifierNotFoundException;
+    ClassifierDTO getClassifier(Long ClassifierId) throws ClassifierNotFoundException;
 
     /**
      * Возвращает список всех классификаторов.
      * @return список DTO классификаторов.
      */
-    List<ClassifierDTO> showAllClassifier();
+    List<ClassifierDTO> getAllClassifier();
 
     /**
      * Удаляет классификатор

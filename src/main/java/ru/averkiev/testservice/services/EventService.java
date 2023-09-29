@@ -37,13 +37,13 @@ public interface EventService {
      * @return DTO с данными искомого события
      * @throws EventNotFoundException выбрасывает, если возникает ошибка при поиске события по переданному идентификатору.
      */
-    EventDTO showEvent(Long eventId) throws EventNotFoundException;
+    EventDTO getEvent(Long eventId) throws EventNotFoundException;
 
     /**
      * Возвращает список всех событий
      * @return список содержащий DTO с данными событий.
      */
-    List<EventDTO> showAllEvents();
+    List<EventDTO> getAllEvents();
 
     /**
      * Возвращает список событий, тип которых соответствует заданному типу классификатора.
@@ -51,7 +51,7 @@ public interface EventService {
      * @return список событий, соответствующих заданному типу классификатора.
      * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
      */
-    List<EventDTO> showEventsByClassifierType(String classifierType) throws ClassifierNotFoundException;
+    List<EventDTO> getEventsByClassifierType(String classifierType) throws ClassifierNotFoundException;
 
     /**
      * Удаляет событие.

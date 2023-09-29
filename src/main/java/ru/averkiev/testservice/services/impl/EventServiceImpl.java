@@ -3,6 +3,7 @@ package ru.averkiev.testservice.services.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.averkiev.testservice.exceptions.ClassifierNotFoundException;
 import ru.averkiev.testservice.exceptions.EventNotFoundException;
@@ -96,7 +97,7 @@ public class EventServiceImpl implements EventService {
      * @throws EventNotFoundException выбрасывает, если возникает ошибка при поиске события по переданному идентификатору.
      */
     @Override
-    public EventDTO showEvent(Long eventId) throws EventNotFoundException {
+    public EventDTO getEvent(Long eventId) throws EventNotFoundException {
         return modelMapper.map(getEventById(eventId), EventDTO.class);
     }
 
@@ -105,8 +106,20 @@ public class EventServiceImpl implements EventService {
      * @return список содержащий DTO с данными событий.
      */
     @Override
-    public List<EventDTO> showAllEvents() {
+    public List<EventDTO> getAllEvents() {
         return eventRepository.findAllByOrderByHappenedAtDesc().stream()
+                .map(event -> modelMapper.map(event, EventDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Возвращает список всех событий с пагинацией страниц
+     * @param pageRequest пагинация
+     * @return список содержащий DTO с данными событий.
+     */
+    public List<EventDTO> getAllEvents(PageRequest pageRequest) {
+        return eventRepository.findAllByOrderByHappenedAtDesc(pageRequest).stream()
                 .map(event -> modelMapper.map(event, EventDTO.class))
                 .collect(Collectors.toList());
     }
@@ -118,9 +131,16 @@ public class EventServiceImpl implements EventService {
      * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
      */
     @Override
-    public List<EventDTO> showEventsByClassifierType(String classifierType) throws ClassifierNotFoundException {
+    public List<EventDTO> getEventsByClassifierType(String classifierType) throws ClassifierNotFoundException {
         Classifier classifier = classifierRepository.findClassifierByType(classifierType);
-        return showAllEvents().stream()
+        return getAllEvents().stream()
+                .filter(eventDTO -> eventDTO.getClassifierType().equals(classifier.getType()))
+                .collect(Collectors.toList());
+    }
+
+    public List<EventDTO> getEventsByClassifierType(String classifierType, PageRequest pageRequest) throws ClassifierNotFoundException {
+        Classifier classifier = classifierRepository.findClassifierByType(classifierType, pageRequest);
+        return getAllEvents().stream()
                 .filter(eventDTO -> eventDTO.getClassifierType().equals(classifier.getType()))
                 .collect(Collectors.toList());
     }
