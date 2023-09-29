@@ -1,0 +1,9 @@
+ru.averkiev.testservice
+ru.averkiev.testservice.configs
+ru.averkiev.testservice.controllers
+ru.averkiev.testservice.exceptions
+ru.averkiev.testservice.models
+ru.averkiev.testservice.repositories
+ru.averkiev.testservice.services
+ru.averkiev.testservice.services.impl
+ru.averkiev.testservice.utils
