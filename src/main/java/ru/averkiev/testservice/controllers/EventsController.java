@@ -1,6 +1,5 @@
 package ru.averkiev.testservice.controllers;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -63,8 +62,8 @@ public class EventsController {
     @GetMapping
     public ResponseEntity<List<EventDTO>> showAllEvents(
             @RequestParam(value = "filter", required = false) String typeClassifier,
-            @Parameter(name = "page", description = "Номер отображаемой страницы") @RequestParam(value = "page", required = false) Integer page,
-            @Parameter(name = "pageSize", description = "Количество отображаемых элементов на странице") @RequestParam(value = "pageSize", required = false) Integer pageSize
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "pageSize", required = false) Integer pageSize
 
     ) {
         if (page == null || pageSize == null) {

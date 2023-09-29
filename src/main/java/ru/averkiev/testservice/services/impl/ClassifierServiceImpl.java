@@ -149,4 +149,20 @@ public class ClassifierServiceImpl implements ClassifierService {
         log.info("IN getClassifierById - классификатор с идентификатором: {} успешно найден", classifierId);
         return classifier.get();
     }
+
+    /**
+     * Выполняет поиск классификатора по типу.
+     * @param classifierType тип классификатора.
+     * @return классификатор.
+     * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
+     */
+    public Classifier getClassifierByType(String classifierType) throws ClassifierNotFoundException {
+        Classifier classifier = classifierRepository.findClassifierByType(classifierType);
+        if (classifier == null) {
+            log.error("IN getClassifierById - классификатор с типом: {} не найден", classifierType);
+            throw new ClassifierNotFoundException("Классификатор с типом: " + classifierType + " не найден");
+        }
+        log.info("IN getClassifierById - классификатор с типом: {} успешно найден", classifierType);
+        return classifier;
+    }
 }

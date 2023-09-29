@@ -1,5 +1,6 @@
 package ru.averkiev.testservice.repositories;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.averkiev.testservice.models.Classifier;
@@ -13,4 +14,6 @@ public interface ClassifierRepository extends JpaRepository<Classifier, Long> {
     boolean existsClassifierByType(String type);
 
     Classifier findClassifierByType(String classifierType);
+
+    Classifier findClassifierByType(String classifierType, PageRequest pageRequest);
 }

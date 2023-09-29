@@ -3,6 +3,7 @@ package ru.averkiev.testservice.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class Event extends BaseEntity {
 
     /** Дата и время возникновения события */
     @Column(name = "happened_at")
+    @CreationTimestamp
     private Date happenedAt;
 
     /** Тип классификатора события */

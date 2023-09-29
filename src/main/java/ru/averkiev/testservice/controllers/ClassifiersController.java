@@ -1,6 +1,5 @@
 package ru.averkiev.testservice.controllers;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +14,9 @@ import java.util.List;
  * @author mrGreenNV
  */
 @RestController
-@RequestMapping("/api/statistics")
+@RequestMapping("/api/classifiers")
 @RequiredArgsConstructor
-public class StatisticsController {
+public class ClassifiersController {
 
     /** Сервис для взаимодействия с классификаторами */
     private final ClassifierServiceImpl classifierService;

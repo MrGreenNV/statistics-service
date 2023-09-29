@@ -1,12 +1,14 @@
 package ru.averkiev.testservice.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * DTO класса Classifier.
  * @author mrGreenNV
  */
-@Data
+@Getter
+@Setter
 public class ClassifierDTO {
 
     /** Тип классификатора */

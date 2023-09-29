@@ -1,5 +1,6 @@
 package ru.averkiev.testservice.repositories;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.averkiev.testservice.models.Event;
@@ -18,4 +19,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return отсортированный список всех событий.
      */
     List<Event> findAllByOrderByHappenedAtDesc();
+
+    /**
+     * Выполняет поиск всех событий в базе данных и сортирует их по дате в порядке убывания с пагинацией страниц.
+     * @return отсортированный список всех событий.
+     */
+    List<Event> findAllByOrderByHappenedAtDesc(PageRequest pageRequest);
 }

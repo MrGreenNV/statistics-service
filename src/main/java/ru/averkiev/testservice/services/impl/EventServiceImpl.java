@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import ru.averkiev.testservice.exceptions.ClassifierNotFoundException;
 import ru.averkiev.testservice.exceptions.EventNotFoundException;
 import ru.averkiev.testservice.models.*;
-import ru.averkiev.testservice.repositories.ClassifierRepository;
 import ru.averkiev.testservice.repositories.EventRepository;
 import ru.averkiev.testservice.services.EventService;
 
@@ -31,8 +30,8 @@ public class EventServiceImpl implements EventService {
     /** Репозиторий для обращения к базе данных объектов Event */
     private final EventRepository eventRepository;
 
-    /** Репозиторий для обращения к базе данных объектов Classifier */
-    private final ClassifierRepository classifierRepository;
+    /** Сервис для взаимодействия с объектами Classifier */
+    private final ClassifierServiceImpl classifierService;
 
     /** Позволяет преобразовать классы моделей к DTO */
     private final ModelMapper modelMapper;
@@ -46,7 +45,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventDTO createEvent(EventCreateDTO eventCreateDTO) throws ClassifierNotFoundException {
 
-        Classifier classifier = classifierRepository.findClassifierByType(eventCreateDTO.getClassifierType());
+        Classifier classifier = classifierService.getClassifierByType(eventCreateDTO.getClassifierType());
 
         Event event = new Event();
         event.setHappenedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
@@ -74,7 +73,7 @@ public class EventServiceImpl implements EventService {
     public EventDTO updateEvent(Long eventID, EventDTO updatedEvent) throws EventNotFoundException, ClassifierNotFoundException {
 
         String updatedEventName = updatedEvent.getEventName();
-        Classifier updatedClassifier = classifierRepository.findClassifierByType(updatedEvent.getClassifierType());
+        Classifier updatedClassifier = classifierService.getClassifierByType(updatedEvent.getClassifierType());
 
         Event event = getEventById(eventID);
 
@@ -132,15 +131,22 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public List<EventDTO> getEventsByClassifierType(String classifierType) throws ClassifierNotFoundException {
-        Classifier classifier = classifierRepository.findClassifierByType(classifierType);
+        Classifier classifier = classifierService.getClassifierByType(classifierType);
         return getAllEvents().stream()
                 .filter(eventDTO -> eventDTO.getClassifierType().equals(classifier.getType()))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Возвращает список событий, тип которых соответствует заданному типу классификатора с пагинацией страниц.
+     * @param classifierType заданный тип классификатора
+     * @param pageRequest пагинация
+     * @return список событий, соответствующих заданному типу классификатора.
+     * @throws ClassifierNotFoundException выбрасывает, если возникает ошибка при поиске классификатора.
+     */
     public List<EventDTO> getEventsByClassifierType(String classifierType, PageRequest pageRequest) throws ClassifierNotFoundException {
-        Classifier classifier = classifierRepository.findClassifierByType(classifierType, pageRequest);
-        return getAllEvents().stream()
+        Classifier classifier = classifierService.getClassifierByType(classifierType);
+        return getAllEvents(pageRequest).stream()
                 .filter(eventDTO -> eventDTO.getClassifierType().equals(classifier.getType()))
                 .collect(Collectors.toList());
     }
