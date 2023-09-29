@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  title: Statistic service
+  description: Макет сервиса сбора статистики.
+  contact:
+    name: mrGreenNV
+    email: averkievnv@gmail.com
+    url: https://github.com/MrGreenNV
+  version: 0.1.0

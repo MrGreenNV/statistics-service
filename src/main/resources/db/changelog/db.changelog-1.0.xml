@@ -3,6 +3,66 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
+    <!--    Создание таблицы классификаторов. -->
+    <changeSet id="createTableClassifier" author="MrGreenNV">
+        <createTable tableName="classifiers">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 
+    <!--    Создание таблицы событий. -->
+    <changeSet id="createTableEvents" author="MrGreenNV">
+        <createTable tableName="events">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="happened_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="classifier_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!--  Создание внешнего ключа на классификатор  -->
+    <changeSet id="createFKEventsClassifier" author="mrGreenNV">
+        <addForeignKeyConstraint baseColumnNames="classifier_id"
+                                 baseTableName="events"
+                                 constraintName="fk_classifier_event"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="classifiers"/>
+    </changeSet>
 
 </databaseChangeLog>
